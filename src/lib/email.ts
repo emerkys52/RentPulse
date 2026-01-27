@@ -1,13 +1,23 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const FROM_EMAIL = 'RentPulse <noreply@rentpulse.app>'
+
+// Lazy initialization to avoid errors during build
+let resendClient: Resend | null = null
+function getResend(): Resend {
+  if (!resendClient) {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY is not configured')
+    }
+    resendClient = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resendClient
+}
 
 export async function sendVerificationEmail(email: string, token: string) {
   const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}`
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: 'Verify your RentPulse account',
@@ -36,7 +46,7 @@ export async function sendVerificationEmail(email: string, token: string) {
 export async function sendPasswordResetEmail(email: string, token: string) {
   const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: 'Reset your RentPulse password',
@@ -71,7 +81,7 @@ export async function sendLeaseExpirationReminder(
 ) {
   const urgencyColor = daysUntilExpiration <= 7 ? '#ef4444' : daysUntilExpiration <= 30 ? '#f59e0b' : '#22d3ee'
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: `Lease Expiration Alert: ${tenantName} - ${daysUntilExpiration} days remaining`,
@@ -112,7 +122,7 @@ export async function sendMaintenanceReminder(
   const statusColor = isOverdue ? '#ef4444' : '#f59e0b'
   const statusText = isOverdue ? 'Overdue' : 'Due Soon'
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: `Maintenance ${statusText}: ${itemTitle}`,
@@ -148,7 +158,7 @@ export async function sendPaymentReminder(
   amount: number,
   dueDate: string
 ) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: `Payment Reminder: ${tenantName} - $${amount.toFixed(2)} due`,
@@ -179,7 +189,7 @@ export async function sendPaymentReminder(
 }
 
 export async function sendPremiumGrantedEmail(email: string, userName: string) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: 'Premium Access Granted - RentPulse',
@@ -212,7 +222,7 @@ export async function sendPremiumGrantedEmail(email: string, userName: string) {
 }
 
 export async function sendWelcomeEmail(email: string, userName: string) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: 'Welcome to RentPulse!',
@@ -245,7 +255,7 @@ export async function sendWelcomeEmail(email: string, userName: string) {
 }
 
 export async function sendTrialStartedEmail(email: string, userName: string) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: 'Your 7-Day Premium Trial Has Started - RentPulse',
