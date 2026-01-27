@@ -1,0 +1,312 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// NextAuth.js required models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// User model (extended for our app)
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  firstName     String
+  lastName      String
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  isActive      Boolean   @default(true)
+
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  subscription  Subscription?
+  properties    Property[]
+  notifications Notification[]
+}
+
+// Subscription model
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  status               String   @default("free") // free, trialing, active, granted, past_due, cancelled
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  stripePriceId        String?
+  trialEndsAt          DateTime?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean  @default(false)
+  grantedBy            String?  // Admin user ID who granted premium
+  grantedAt            DateTime?
+  grantExpiresAt       DateTime? // Optional expiration for granted premium
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Property model
+model Property {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  address   String
+  city      String
+  state     String
+  zipCode   String
+  type      String   @default("single_family") // single_family, multi_family, apartment, condo, townhouse, commercial
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  units            Unit[]
+  maintenanceItems MaintenanceItem[]
+  documents        Document[]
+}
+
+// Unit model (for multi-unit properties)
+model Unit {
+  id         String   @id @default(cuid())
+  propertyId String
+  unitNumber String
+  bedrooms   Int      @default(1)
+  bathrooms  Float    @default(1)
+  squareFeet Int?
+  rentAmount Float
+  isOccupied Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  property         Property          @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenant           Tenant?
+  maintenanceItems MaintenanceItem[]
+
+  @@unique([propertyId, unitNumber])
+}
+
+// Tenant model
+model Tenant {
+  id              String    @id @default(cuid())
+  unitId          String    @unique
+  firstName       String
+  lastName        String
+  email           String
+  phone           String?
+  leaseStart      DateTime
+  leaseEnd        DateTime
+  rentAmount      Float
+  securityDeposit Float?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  moveOutDate     DateTime?
+
+  unit       Unit         @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  payments   Payment[]
+  lease      Lease?
+  notes      TenantNote[]
+}
+
+// Tenant notes/history
+model TenantNote {
+  id        String   @id @default(cuid())
+  tenantId  String
+  content   String
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+// Payment model
+model Payment {
+  id            String   @id @default(cuid())
+  tenantId      String
+  amount        Float
+  paymentDate   DateTime
+  dueDate       DateTime?
+  paymentMethod String   @default("other") // cash, check, bank_transfer, credit_card, other
+  status        String   @default("completed") // pending, completed, failed, refunded
+  lateFee       Float    @default(0)
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+// Lease model
+model Lease {
+  id            String    @id @default(cuid())
+  tenantId      String    @unique
+  startDate     DateTime
+  endDate       DateTime
+  rentAmount    Float
+  securityDeposit Float?
+  terms         String?
+  documentUrl   String?
+  status        String    @default("active") // active, expired, renewed, terminated
+  renewalSent   Boolean   @default(false)
+  renewalSentAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  documents Document[]
+}
+
+// Maintenance Item model
+model MaintenanceItem {
+  id                String    @id @default(cuid())
+  propertyId        String
+  unitId            String?
+  title             String
+  description       String?
+  priority          String    @default("medium") // low, medium, high, urgent
+  status            String    @default("pending") // pending, in_progress, completed, cancelled
+  dueDate           DateTime?
+  completedDate     DateTime?
+  cost              Float?
+  vendorName        String?
+  vendorContact     String?
+  isRecurring       Boolean   @default(false)
+  recurringInterval String?   // weekly, monthly, quarterly, yearly
+  lastCompletedAt   DateTime?
+  nextDueDate       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  unit     Unit?    @relation(fields: [unitId], references: [id], onDelete: SetNull)
+}
+
+// Late Fee Rule model
+model LateFeeRule {
+  id             String   @id @default(cuid())
+  userId         String
+  name           String
+  gracePeriodDays Int     @default(5)
+  feeType        String   @default("flat") // flat, percentage
+  feeAmount      Float    // Dollar amount or percentage
+  maxFee         Float?   // Cap on late fees
+  isDefault      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Document model
+model Document {
+  id          String   @id @default(cuid())
+  propertyId  String?
+  leaseId     String?
+  name        String
+  type        String   // lease, agreement, receipt, other
+  url         String
+  size        Int?     // File size in bytes
+  mimeType    String?
+  createdAt   DateTime @default(now())
+
+  property Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  lease    Lease?    @relation(fields: [leaseId], references: [id], onDelete: Cascade)
+}
+
+// Notification model
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // lease_expiring, payment_due, maintenance_due, payment_received, etc.
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  data      String?  // JSON string for additional data
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+}
+
+// Admin User model (separate from regular users)
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin") // admin, super_admin
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  auditLogs AdminAuditLog[]
+}
+
+// Admin Audit Log
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  adminId     String
+  action      String   // grant_premium, revoke_premium, disable_user, etc.
+  targetType  String   // user, subscription, etc.
+  targetId    String
+  details     String?  // JSON string for additional details
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+
+  admin AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@index([targetType, targetId])
+}
+
+// Calculator Results (for saved calculations)
+model CalculatorResult {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String   // late_fee, roi
+  name         String?
+  inputs       String   // JSON string
+  results      String   // JSON string
+  createdAt    DateTime @default(now())
+
+  @@index([userId, type])
+}
