@@ -73,7 +73,7 @@ export async function POST(req: Request) {
         if (userId) {
           let status = subscription.status
           if (subscription.cancel_at_period_end) {
-            status = 'cancelled'
+            status = 'canceled'
           }
 
           await db.subscription.update({
