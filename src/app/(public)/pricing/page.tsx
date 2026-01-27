@@ -31,7 +31,7 @@ const plans = [
   {
     name: 'Premium',
     description: 'For growing portfolios',
-    price: '$12',
+    price: '$4.99',
     period: 'per month',
     features: [
       { text: 'Unlimited properties', included: true },

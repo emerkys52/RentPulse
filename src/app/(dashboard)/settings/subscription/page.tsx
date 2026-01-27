@@ -226,7 +226,7 @@ export default function SubscriptionSettingsPage() {
               {isPremium && <Badge>Current</Badge>}
             </CardTitle>
             <CardDescription>
-              <span className="text-3xl font-bold">$12</span>
+              <span className="text-3xl font-bold">$4.99</span>
               <span className="text-muted-foreground">/month</span>
             </CardDescription>
           </CardHeader>
