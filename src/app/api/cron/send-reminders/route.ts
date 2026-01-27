@@ -53,27 +53,36 @@ export async function POST(req: Request) {
         include: {
           tenant: {
             include: {
-              user: true,
-              property: true,
+              unit: {
+                include: {
+                  property: {
+                    include: {
+                      user: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
       })
 
       for (const lease of expiringLeases) {
+        const property = lease.tenant.unit.property
+        const user = property.user
         // Only send to premium users
-        if (!premiumUserIds.includes(lease.tenant.userId)) continue
+        if (!premiumUserIds.includes(user.id)) continue
 
         try {
           await sendLeaseExpirationReminder(
-            lease.tenant.user.email,
+            user.email,
             `${lease.tenant.firstName} ${lease.tenant.lastName}`,
-            lease.tenant.property.address,
+            property.address,
             days,
             format(lease.endDate, 'MMMM d, yyyy')
           )
           results.leaseReminders++
-        } catch (error) {
+        } catch {
           results.errors.push(`Failed to send lease reminder for tenant ${lease.tenant.id}`)
         }
       }
@@ -86,11 +95,16 @@ export async function POST(req: Request) {
         nextDueDate: {
           lte: addDays(today, 3), // Due within 3 days
         },
-        userId: { in: premiumUserIds },
+        property: {
+          userId: { in: premiumUserIds },
+        },
       },
       include: {
-        user: true,
-        property: true,
+        property: {
+          include: {
+            user: true,
+          },
+        },
       },
     })
 
@@ -100,14 +114,14 @@ export async function POST(req: Request) {
 
       try {
         await sendMaintenanceReminder(
-          item.user.email,
+          item.property.user.email,
           item.title,
           item.property.address,
           format(item.nextDueDate!, 'MMMM d, yyyy'),
           isOverdue
         )
         results.maintenanceReminders++
-      } catch (error) {
+      } catch {
         results.errors.push(`Failed to send maintenance reminder for item ${item.id}`)
       }
     }
