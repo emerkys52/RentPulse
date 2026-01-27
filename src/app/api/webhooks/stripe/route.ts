@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         const userId = session.metadata?.userId
 
         if (userId && session.subscription) {
-          const subscription = await stripe.subscriptions.retrieve(
+          const subscription = await stripe.client.subscriptions.retrieve(
             session.subscription as string
           )
 
@@ -121,7 +121,7 @@ export async function POST(req: Request) {
         const subscriptionId = invoice.subscription as string
 
         if (subscriptionId) {
-          const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+          const subscription = await stripe.client.subscriptions.retrieve(subscriptionId)
           const userId = subscription.metadata?.userId
 
           if (userId) {

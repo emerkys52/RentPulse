@@ -1,13 +1,33 @@
 import Stripe from 'stripe'
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not set')
+// Lazy initialization to avoid errors during build
+let stripeClient: Stripe | null = null
+function getStripe(): Stripe {
+  if (!stripeClient) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('STRIPE_SECRET_KEY is not set')
+    }
+    stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2025-02-24.acacia',
+      typescript: true,
+    })
+  }
+  return stripeClient
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2025-02-24.acacia',
-  typescript: true,
-})
+// Export for direct use in webhook handler
+export const stripe = {
+  get client() {
+    return getStripe()
+  },
+  webhooks: {
+    constructEvent: (
+      payload: string | Buffer,
+      signature: string,
+      secret: string
+    ) => getStripe().webhooks.constructEvent(payload, signature, secret),
+  },
+}
 
 export async function createCheckoutSession({
   userId,
@@ -22,7 +42,7 @@ export async function createCheckoutSession({
   successUrl: string
   cancelUrl: string
 }) {
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     customer_email: userEmail,
     mode: 'subscription',
     payment_method_types: ['card'],
@@ -56,7 +76,7 @@ export async function createCustomerPortalSession({
   customerId: string
   returnUrl: string
 }) {
-  const session = await stripe.billingPortal.sessions.create({
+  const session = await getStripe().billingPortal.sessions.create({
     customer: customerId,
     return_url: returnUrl,
   })
@@ -65,12 +85,12 @@ export async function createCustomerPortalSession({
 }
 
 export async function getSubscriptionStatus(subscriptionId: string) {
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+  const subscription = await getStripe().subscriptions.retrieve(subscriptionId)
   return subscription
 }
 
 export async function cancelSubscription(subscriptionId: string) {
-  const subscription = await stripe.subscriptions.update(subscriptionId, {
+  const subscription = await getStripe().subscriptions.update(subscriptionId, {
     cancel_at_period_end: true,
   })
   return subscription
