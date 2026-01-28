@@ -39,7 +39,7 @@ export function FullPageLoader() {
     <div className="min-h-screen bg-slate-900 flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <LoadingSpinner size="lg" />
-        <p className="text-slate-400">Loading RentalPulse...</p>
+        <p className="text-slate-400">Loading Rent Got Done...</p>
       </div>
     </div>
   )

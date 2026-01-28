@@ -21,7 +21,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold mb-4">2. How We Use Your Information</h2>
             <p className="text-muted-foreground mb-4">We use your information to:</p>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-              <li>Provide and maintain the RentalPulse service</li>
+              <li>Provide and maintain the Rent Got Done service</li>
               <li>Process payments and send transactional emails</li>
               <li>Send service updates and notifications</li>
               <li>Improve our service and develop new features</li>

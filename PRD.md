@@ -1,13 +1,13 @@
-# RentalPulse - Product Requirements Document (PRD)
+# Rent Got Done - Product Requirements Document (PRD)
 
 ## 1. Executive Summary
 
-**Product Name:** RentalPulse
+**Product Name:** Rent Got Done
 **Tagline:** "Never miss a rent check or maintenance call"
 **Version:** 1.0
 **Last Updated:** January 26, 2026
 
-RentalPulse is a web-based landlord and property manager toolkit designed to streamline rental property management. The platform helps users track rent payments, manage lease renewals, schedule maintenance, and calculate financial metrics—all in one mobile-responsive application.
+Rent Got Done is a web-based landlord and property manager toolkit designed to streamline rental property management. The platform helps users track rent payments, manage lease renewals, schedule maintenance, and calculate financial metrics—all in one mobile-responsive application.
 
 ---
 

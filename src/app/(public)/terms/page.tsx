@@ -9,21 +9,21 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">1. Acceptance of Terms</h2>
             <p className="text-muted-foreground">
-              By accessing or using RentalPulse, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service.
+              By accessing or using Rent Got Done, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">2. Description of Service</h2>
             <p className="text-muted-foreground">
-              RentalPulse is a property management platform that helps landlords and property managers track properties, tenants, payments, leases, and maintenance. We offer both free and premium subscription tiers with varying feature sets.
+              Rent Got Done is a property management platform that helps landlords and property managers track properties, tenants, payments, leases, and maintenance. We offer both free and premium subscription tiers with varying feature sets.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">3. Account Registration</h2>
             <p className="text-muted-foreground mb-4">
-              To use RentalPulse, you must create an account. You agree to:
+              To use Rent Got Done, you must create an account. You agree to:
             </p>
             <ul className="list-disc pl-6 text-muted-foreground space-y-2">
               <li>Provide accurate and complete registration information</li>
@@ -54,14 +54,14 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">6. Data and Privacy</h2>
             <p className="text-muted-foreground">
-              Your use of RentalPulse is also governed by our Privacy Policy. You retain ownership of all data you enter into RentalPulse. We will not share your data with third parties except as described in our Privacy Policy.
+              Your use of Rent Got Done is also governed by our Privacy Policy. You retain ownership of all data you enter into Rent Got Done. We will not share your data with third parties except as described in our Privacy Policy.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">7. Limitation of Liability</h2>
             <p className="text-muted-foreground">
-              RentalPulse is provided as is without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the service.
+              Rent Got Done is provided as is without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the service.
             </p>
           </section>
 

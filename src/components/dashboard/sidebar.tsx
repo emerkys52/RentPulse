@@ -95,7 +95,7 @@ export function Sidebar({ isOpen, onClose, subscriptionStatus = 'free' }: Sideba
           <div className="flex h-16 items-center justify-between px-4 border-b">
             <Link href="/dashboard" className="flex items-center gap-2">
               <Building2 className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">RentalPulse</span>
+              <span className="text-xl font-bold">Rent Got Done</span>
             </Link>
             <Button
               variant="ghost"

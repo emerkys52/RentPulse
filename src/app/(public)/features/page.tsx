@@ -98,7 +98,7 @@ export default function FeaturesPage() {
           <Badge className="mb-4">Features</Badge>
           <h1 className="text-4xl font-bold mb-4">Everything You Need to Manage Properties</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            RentalPulse provides comprehensive tools for landlords and property managers of all sizes.
+            Rent Got Done provides comprehensive tools for landlords and property managers of all sizes.
           </p>
         </div>
 
@@ -173,7 +173,7 @@ export default function FeaturesPage() {
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-muted-foreground mb-6">
-            Join thousands of property owners who trust RentalPulse.
+            Join thousands of property owners who trust Rent Got Done.
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/register">
