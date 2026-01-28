@@ -86,7 +86,6 @@ After seeding, you can log in with:
 - Advanced calculators
 - Advanced maintenance scheduling
 - Document storage
-- Priority support
 
 ## Project Structure
 

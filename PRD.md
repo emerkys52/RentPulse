@@ -75,7 +75,6 @@ To become the go-to solution for independent landlords and small property manage
 | ROI Calculator | 1 property | All properties + comparisons |
 | Data Export | None | CSV/PDF export |
 | Email Notifications | None | Full notification system |
-| Priority Support | None | Email support |
 
 ---
 

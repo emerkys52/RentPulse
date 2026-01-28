@@ -37,7 +37,6 @@ const features = {
     'All calculators with advanced features',
     'Document storage',
     'Data export',
-    'Priority support',
   ],
 }
 

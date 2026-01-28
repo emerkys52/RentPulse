@@ -209,7 +209,6 @@ export async function sendPremiumGrantedEmail(email: string, userName: string) {
               <li>Advanced calculators with full ROI analysis</li>
               <li>Email reminders for leases and maintenance</li>
               <li>Document storage and management</li>
-              <li>Priority support</li>
             </ul>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Go to Dashboard</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
