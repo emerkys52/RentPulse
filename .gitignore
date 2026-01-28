@@ -44,3 +44,6 @@ prisma/*.db-journal
 
 # Claude
 .claude/
+
+# Sensitive info
+Stripe Info.txt
