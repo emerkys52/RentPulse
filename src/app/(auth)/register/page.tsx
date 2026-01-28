@@ -57,7 +57,7 @@ export default function RegisterPage() {
         <div className="flex justify-center mb-4">
           <div className="flex items-center gap-2 text-2xl font-bold text-primary">
             <Building2 className="h-8 w-8" />
-            <span>RentPulse</span>
+            <span>RentalPulse</span>
           </div>
         </div>
         <CardTitle className="text-2xl">Create an account</CardTitle>

@@ -50,7 +50,7 @@ const features = [
 
 const testimonials = [
   {
-    quote: 'RentPulse has transformed how I manage my rental properties. Everything is organized and easy to access.',
+    quote: 'RentalPulse has transformed how I manage my rental properties. Everything is organized and easy to access.',
     author: 'Sarah M.',
     role: 'Property Owner, 5 units',
   },
@@ -110,7 +110,7 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Everything You Need to Manage Properties</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              From tenant management to maintenance scheduling, RentPulse provides all the tools
+              From tenant management to maintenance scheduling, RentalPulse provides all the tools
               landlords and property managers need.
             </p>
           </div>
@@ -137,7 +137,7 @@ export default function HomePage() {
         <div className="container px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6">Why Choose RentPulse?</h2>
+              <h2 className="text-3xl font-bold mb-6">Why Choose RentalPulse?</h2>
               <div className="space-y-4">
                 {[
                   'Free tier with essential features for small landlords',
@@ -195,7 +195,7 @@ export default function HomePage() {
         <div className="container px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Trusted by Property Owners</h2>
-            <p className="text-muted-foreground">See what our users have to say about RentPulse.</p>
+            <p className="text-muted-foreground">See what our users have to say about RentalPulse.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((testimonial, index) => (
@@ -218,7 +218,7 @@ export default function HomePage() {
         <div className="container px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Simplify Your Property Management?</h2>
           <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Join thousands of property owners who trust RentPulse to manage their rentals.
+            Join thousands of property owners who trust RentalPulse to manage their rentals.
             Start for free today.
           </p>
           <Link href="/register">

@@ -1,4 +1,4 @@
-# RentPulse
+# RentalPulse
 
 Property management application built with Next.js 14, Prisma, and Stripe.
 

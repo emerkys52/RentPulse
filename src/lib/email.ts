@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 
-const FROM_EMAIL = 'RentPulse <noreply@rentpulse.app>'
+const FROM_EMAIL = 'RentalPulse <noreply@rentpulse.app>'
 
 // Lazy initialization to avoid errors during build
 let resendClient: Resend | null = null
@@ -20,7 +20,7 @@ export async function sendVerificationEmail(email: string, token: string) {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: 'Verify your RentPulse account',
+    subject: 'Verify your RentalPulse account',
     html: `
       <!DOCTYPE html>
       <html>
@@ -30,12 +30,12 @@ export async function sendVerificationEmail(email: string, token: string) {
         </head>
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; color: #e2e8f0; padding: 40px 20px;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #1e293b; border-radius: 12px; padding: 40px;">
-            <h1 style="color: #22d3ee; margin-bottom: 24px; font-size: 24px;">Welcome to RentPulse!</h1>
+            <h1 style="color: #22d3ee; margin-bottom: 24px; font-size: 24px;">Welcome to RentalPulse!</h1>
             <p style="margin-bottom: 24px; line-height: 1.6;">Thank you for signing up. Please verify your email address by clicking the button below:</p>
             <a href="${verifyUrl}" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Verify Email</a>
             <p style="margin-top: 24px; color: #94a3b8; font-size: 14px;">If you didn't create an account, you can safely ignore this email.</p>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -49,7 +49,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: 'Reset your RentPulse password',
+    subject: 'Reset your RentalPulse password',
     html: `
       <!DOCTYPE html>
       <html>
@@ -64,7 +64,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
             <a href="${resetUrl}" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Reset Password</a>
             <p style="margin-top: 24px; color: #94a3b8; font-size: 14px;">This link will expire in 1 hour. If you didn't request a password reset, you can safely ignore this email.</p>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -104,7 +104,7 @@ export async function sendLeaseExpirationReminder(
             <p style="margin-bottom: 24px; line-height: 1.6;">Consider reaching out to your tenant to discuss lease renewal options.</p>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/leases" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">View Leases</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -143,7 +143,7 @@ export async function sendMaintenanceReminder(
             </div>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/maintenance" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">View Maintenance</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -180,7 +180,7 @@ export async function sendPaymentReminder(
             </div>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/payments" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">View Payments</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -192,7 +192,7 @@ export async function sendPremiumGrantedEmail(email: string, userName: string) {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: 'Premium Access Granted - RentPulse',
+    subject: 'Premium Access Granted - RentalPulse',
     html: `
       <!DOCTYPE html>
       <html>
@@ -203,7 +203,7 @@ export async function sendPremiumGrantedEmail(email: string, userName: string) {
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; color: #e2e8f0; padding: 40px 20px;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #1e293b; border-radius: 12px; padding: 40px;">
             <h1 style="color: #22d3ee; margin-bottom: 24px; font-size: 24px;">Congratulations, ${userName}!</h1>
-            <p style="margin-bottom: 24px; line-height: 1.6;">You've been granted Premium access to RentPulse! You now have access to all premium features including:</p>
+            <p style="margin-bottom: 24px; line-height: 1.6;">You've been granted Premium access to RentalPulse! You now have access to all premium features including:</p>
             <ul style="margin-bottom: 24px; line-height: 1.8; color: #94a3b8;">
               <li>Unlimited properties and tenants</li>
               <li>Advanced calculators with full ROI analysis</li>
@@ -213,7 +213,7 @@ export async function sendPremiumGrantedEmail(email: string, userName: string) {
             </ul>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Go to Dashboard</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -225,7 +225,7 @@ export async function sendWelcomeEmail(email: string, userName: string) {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: 'Welcome to RentPulse!',
+    subject: 'Welcome to RentalPulse!',
     html: `
       <!DOCTYPE html>
       <html>
@@ -235,8 +235,8 @@ export async function sendWelcomeEmail(email: string, userName: string) {
         </head>
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; color: #e2e8f0; padding: 40px 20px;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #1e293b; border-radius: 12px; padding: 40px;">
-            <h1 style="color: #22d3ee; margin-bottom: 24px; font-size: 24px;">Welcome to RentPulse, ${userName}!</h1>
-            <p style="margin-bottom: 24px; line-height: 1.6;">Thank you for joining RentPulse. We're excited to help you manage your rental properties more efficiently.</p>
+            <h1 style="color: #22d3ee; margin-bottom: 24px; font-size: 24px;">Welcome to RentalPulse, ${userName}!</h1>
+            <p style="margin-bottom: 24px; line-height: 1.6;">Thank you for joining RentalPulse. We're excited to help you manage your rental properties more efficiently.</p>
             <p style="margin-bottom: 16px; line-height: 1.6;">Here's what you can do to get started:</p>
             <ol style="margin-bottom: 24px; line-height: 1.8; color: #94a3b8;">
               <li>Add your first property</li>
@@ -246,7 +246,7 @@ export async function sendWelcomeEmail(email: string, userName: string) {
             </ol>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Get Started</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>
@@ -258,7 +258,7 @@ export async function sendTrialStartedEmail(email: string, userName: string) {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: 'Your 7-Day Premium Trial Has Started - RentPulse',
+    subject: 'Your 7-Day Premium Trial Has Started - RentalPulse',
     html: `
       <!DOCTYPE html>
       <html>
@@ -269,7 +269,7 @@ export async function sendTrialStartedEmail(email: string, userName: string) {
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; color: #e2e8f0; padding: 40px 20px;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #1e293b; border-radius: 12px; padding: 40px;">
             <h1 style="color: #22d3ee; margin-bottom: 24px; font-size: 24px;">Your Premium Trial Has Started!</h1>
-            <p style="margin-bottom: 24px; line-height: 1.6;">Hi ${userName}, you now have full access to all RentPulse Premium features for the next 7 days.</p>
+            <p style="margin-bottom: 24px; line-height: 1.6;">Hi ${userName}, you now have full access to all RentalPulse Premium features for the next 7 days.</p>
             <div style="background-color: #0f172a; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
               <p style="margin: 0 0 12px 0; color: #22d3ee; font-weight: 600;">Premium Features Include:</p>
               <ul style="margin: 0; line-height: 1.8; color: #94a3b8;">
@@ -282,7 +282,7 @@ export async function sendTrialStartedEmail(email: string, userName: string) {
             </div>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background-color: #22d3ee; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">Explore Premium Features</a>
             <hr style="border: none; border-top: 1px solid #334155; margin: 32px 0;">
-            <p style="color: #64748b; font-size: 12px;">RentPulse - Property Management Made Simple</p>
+            <p style="color: #64748b; font-size: 12px;">RentalPulse - Property Management Made Simple</p>
           </div>
         </body>
       </html>

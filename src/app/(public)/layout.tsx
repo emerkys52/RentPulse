@@ -8,7 +8,7 @@ function PublicNavbar() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Building2 className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">RentPulse</span>
+          <span className="text-xl font-bold">RentalPulse</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           <Link href="/features" className="text-sm font-medium text-muted-foreground hover:text-foreground">
@@ -39,7 +39,7 @@ function PublicFooter() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Building2 className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">RentPulse</span>
+              <span className="text-xl font-bold">RentalPulse</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Property management made simple. Track tenants, payments, and maintenance all in one place.
@@ -70,7 +70,7 @@ function PublicFooter() {
           </div>
         </div>
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} RentPulse. All rights reserved.
+          &copy; {new Date().getFullYear()} RentalPulse. All rights reserved.
         </div>
       </div>
     </footer>
