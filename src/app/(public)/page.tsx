@@ -34,7 +34,7 @@ const features = [
   {
     icon: Calendar,
     title: 'Lease Management',
-    description: 'Track lease expirations with color-coded alerts and renewal reminders.',
+    description: 'Track lease expirations with color-coded alerts and manage renewals.',
   },
   {
     icon: Wrench,

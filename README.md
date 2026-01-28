@@ -84,8 +84,7 @@ After seeding, you can log in with:
 ### Premium Tier
 - Unlimited properties and tenants
 - Advanced calculators
-- Email reminders for lease expirations
-- Maintenance scheduling with alerts
+- Advanced maintenance scheduling
 - Document storage
 - Priority support
 
@@ -133,15 +132,6 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ```
 
 Copy the webhook signing secret to your `.env.local` file.
-
-## Cron Jobs
-
-The application includes an endpoint for sending email reminders. Set up a cron job to call:
-
-```
-POST /api/cron/send-reminders
-Authorization: Bearer YOUR_CRON_SECRET
-```
 
 ## License
 

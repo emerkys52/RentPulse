@@ -9,7 +9,6 @@ import {
   Calendar,
   Wrench,
   Calculator,
-  Bell,
   FileText,
   BarChart3,
   Shield,
@@ -40,7 +39,7 @@ const mainFeatures = [
   {
     icon: Calendar,
     title: 'Lease Management',
-    description: 'Never miss a lease renewal with color-coded expiration alerts. Track lease terms and automate renewal reminders.',
+    description: 'Never miss a lease renewal with color-coded expiration alerts. Track lease terms and manage renewals.',
     highlights: ['Expiration alerts', 'Color-coded urgency', 'Renewal tracking', 'Document storage'],
     premium: true,
   },
@@ -61,12 +60,6 @@ const mainFeatures = [
 ]
 
 const additionalFeatures = [
-  {
-    icon: Bell,
-    title: 'Email Reminders',
-    description: 'Automated email notifications for lease expirations, maintenance due dates, and payment reminders.',
-    premium: true,
-  },
   {
     icon: FileText,
     title: 'Document Storage',

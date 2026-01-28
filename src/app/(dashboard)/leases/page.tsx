@@ -106,9 +106,6 @@ function LeaseCard({ lease }: { lease: Lease }) {
         </div>
         {daysUntilExpiry <= 30 && daysUntilExpiry > 0 && (
           <div className="mt-4 flex gap-2">
-            <Button size="sm" variant="outline">
-              Send Renewal Reminder
-            </Button>
             <Button size="sm">
               Renew Lease
             </Button>

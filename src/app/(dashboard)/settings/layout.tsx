@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { User, CreditCard, Bell, Key } from 'lucide-react'
+import { User, CreditCard, Key } from 'lucide-react'
 
 const settingsNav = [
   {
@@ -15,11 +15,6 @@ const settingsNav = [
     title: 'Subscription',
     href: '/settings/subscription',
     icon: CreditCard,
-  },
-  {
-    title: 'Notifications',
-    href: '/settings/notifications',
-    icon: Bell,
   },
   {
     title: 'Security',
