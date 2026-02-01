@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
-import { Crown, Check, Loader2, ExternalLink } from 'lucide-react'
+import { Crown, Check, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -16,6 +16,7 @@ type SubscriptionData = {
   currentPeriodEnd: string | null
   cancelAtPeriodEnd: boolean
   stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
   grantedBy: string | null
 }
 
@@ -46,7 +47,7 @@ export default function SubscriptionSettingsPage() {
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false)
-  const [isPortalLoading, setIsPortalLoading] = useState(false)
+  const [isCancelLoading, setIsCancelLoading] = useState(false)
 
   const isPremium = subscription?.status && ['trialing', 'active', 'granted'].includes(subscription.status)
 
@@ -95,21 +96,28 @@ export default function SubscriptionSettingsPage() {
     }
   }
 
-  const handleManageSubscription = async () => {
-    setIsPortalLoading(true)
+  const handleCancelSubscription = async () => {
+    if (!confirm('Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your current billing period.')) {
+      return
+    }
+
+    setIsCancelLoading(true)
 
     try {
-      const res = await fetch('/api/subscription/portal', { method: 'POST' })
+      const res = await fetch('/api/subscription/cancel', { method: 'POST' })
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to open portal')
+        throw new Error(data.error || 'Failed to cancel subscription')
       }
 
-      window.location.href = data.url
+      toast.success('Subscription cancelled. You will have access until the end of your billing period.')
+      fetchSubscription()
+      update()
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to open portal')
-      setIsPortalLoading(false)
+      toast.error(error instanceof Error ? error.message : 'Failed to cancel subscription')
+    } finally {
+      setIsCancelLoading(false)
     }
   }
 
@@ -155,14 +163,10 @@ export default function SubscriptionSettingsPage() {
                     </div>
                   </div>
                 </div>
-                {isPremium && subscription?.stripeCustomerId && (
-                  <Button variant="outline" onClick={handleManageSubscription} disabled={isPortalLoading}>
-                    {isPortalLoading ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                    )}
-                    Manage Billing
+                {isPremium && subscription?.stripeSubscriptionId && !subscription.cancelAtPeriodEnd && (
+                  <Button variant="destructive" onClick={handleCancelSubscription} disabled={isCancelLoading}>
+                    {isCancelLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Cancel Subscription
                   </Button>
                 )}
               </div>

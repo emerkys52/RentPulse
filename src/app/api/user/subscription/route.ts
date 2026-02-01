@@ -20,6 +20,7 @@ export async function GET() {
         currentPeriodEnd: null,
         cancelAtPeriodEnd: false,
         stripeCustomerId: null,
+        stripeSubscriptionId: null,
         grantedBy: null,
       })
     }
@@ -30,6 +31,7 @@ export async function GET() {
       currentPeriodEnd: subscription.currentPeriodEnd,
       cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
       stripeCustomerId: subscription.stripeCustomerId,
+      stripeSubscriptionId: subscription.stripeSubscriptionId,
       grantedBy: subscription.grantedBy,
     })
   } catch (error) {
