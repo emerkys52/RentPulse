@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getAdminSession } from '@/lib/admin-auth'
 import { db } from '@/lib/db'
+import { stripe } from '@/lib/stripe'
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   try {
@@ -18,6 +19,18 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
+    // If user has an active Stripe subscription, cancel it immediately
+    let stripeSubscriptionCancelled = false
+    if (user.subscription?.stripeSubscriptionId) {
+      try {
+        await stripe.client.subscriptions.cancel(user.subscription.stripeSubscriptionId)
+        stripeSubscriptionCancelled = true
+      } catch (error) {
+        // Subscription may already be cancelled, continue anyway
+        console.log('Stripe subscription cancel error (may already be cancelled):', error)
+      }
+    }
+
     // Create or update subscription with granted status
     await db.subscription.upsert({
       where: { userId: params.id },
@@ -29,6 +42,12 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       },
       update: {
         status: 'granted',
+        stripeSubscriptionId: null,
+        stripePriceId: null,
+        currentPeriodStart: null,
+        currentPeriodEnd: null,
+        cancelAtPeriodEnd: false,
+        trialEndsAt: null,
         grantedBy: session.id,
         grantedAt: new Date(),
       },
@@ -44,6 +63,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         details: JSON.stringify({
           userEmail: user.email,
           userName: `${user.firstName} ${user.lastName}`,
+          previousStatus: user.subscription?.status || 'free',
+          stripeSubscriptionCancelled,
         }),
       },
     })

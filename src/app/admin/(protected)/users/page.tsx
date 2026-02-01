@@ -235,7 +235,7 @@ export default function AdminUsersPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="bg-slate-800 border-slate-700">
-                        {(!user.subscription || user.subscription.status === 'free') && (
+                        {user.subscription?.status !== 'granted' && (
                           <DropdownMenuItem
                             onClick={() => setGrantPremiumUser(user)}
                             className="text-slate-300 focus:text-white focus:bg-slate-700"
@@ -280,6 +280,13 @@ export default function AdminUsersPage() {
                 {grantPremiumUser?.firstName} {grantPremiumUser?.lastName}
               </strong>
               . No payment will be required.
+              {grantPremiumUser?.subscription?.status &&
+               ['active', 'trialing'].includes(grantPremiumUser.subscription.status) && (
+                <span className="block mt-2 text-yellow-400">
+                  This user has an existing {grantPremiumUser.subscription.status === 'trialing' ? 'trial' : 'paid'} subscription.
+                  Their Stripe subscription will be cancelled immediately and they will not be charged again.
+                </span>
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
